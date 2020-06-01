@@ -8,38 +8,27 @@ class CloudFormationResource:
         self.cft_file_name = cft_file_name
         self.cloud_formation_client = boto3.client('cloudformation', region_name=self.region_name)
 
-    def create_cloud_formation_stack(self, stack_name=None):
+    def create_cloud_formation_stack(self, stack_name=None, parameters_map=None):
         with open(self.cft_file_name) as cft_file:
             cft_json_data = json.load(cft_file)
 
         response = self.cloud_formation_client.create_stack(
             StackName=stack_name,
             TemplateBody=json.dumps(cft_json_data),
-            Parameters=[
-                {
-                    'ParameterKey': 'TableName',
-                    'ParameterValue': 'USER_INFO',
-                    'UsePreviousValue': True
-                },
-            ],
+            Parameters=parameters_map,
             TimeoutInMinutes=3,
             OnFailure='ROLLBACK'
         )
         return response
 
-    def update_cloud_formation_stack(self, stack_name=None):
+    def update_cloud_formation_stack(self, stack_name=None, parameters_map=None):
         with open(self.cft_file_name) as cft_file:
             cft_json_data = json.load(cft_file)
 
         response = self.cloud_formation_client.update_stack(
             StackName=stack_name,
             TemplateBody=json.dumps(cft_json_data),
-            Parameters=[
-                {
-                    'ParameterKey': 'TableName',
-                    'ParameterValue': 'USER_INFO'
-                },
-            ]
+            Parameters=parameters_map
         )
         return response
 
@@ -52,6 +41,12 @@ class CloudFormationResource:
 
 if __name__ == '__main__':
     cloud_formation_object = CloudFormationResource("ap-south-1", "dynamodbtable_cft.json")
-    # cloud_formation_object.create_cloud_formation_stack(stack_name="sample-dynamodb-table-stack")
-    # cloud_formation_object.update_cloud_formation_stack(stack_name="sample-dynamodb-table-stack")
-    cloud_formation_object.destroy_cloud_formation_stack(stack_name="sample-dynamodb-table-stack")
+    # parameters = [{
+    #     'ParameterKey': 'TableName',
+    #     'ParameterValue': 'USER_INFO'
+    # }]
+    # cloud_formation_object.create_cloud_formation_stack(stack_name="sample-dynamodb-table-stack",
+    #                                                     parameters_map=parameters)
+    # cloud_formation_object.update_cloud_formation_stack(stack_name="sample-dynamodb-table-stack",
+    #                                                     parameters_map=parameters)
+    # # cloud_formation_object.destroy_cloud_formation_stack(stack_name="sample-dynamodb-table-stack")
