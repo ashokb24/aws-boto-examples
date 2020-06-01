@@ -18,7 +18,8 @@ class CloudFormationResource:
             Parameters=[
                 {
                     'ParameterKey': 'TableName',
-                    'ParameterValue': 'USER_INFO'
+                    'ParameterValue': 'USER_INFO',
+                    'UsePreviousValue': True
                 },
             ],
             TimeoutInMinutes=3,
@@ -26,13 +27,31 @@ class CloudFormationResource:
         )
         return response
 
-    def update_cloud_formation_stack(self):
-        return
+    def update_cloud_formation_stack(self, stack_name=None):
+        with open(self.cft_file_name) as cft_file:
+            cft_json_data = json.load(cft_file)
 
-    def destroy_cloud_formation_stack(self):
-        return
+        response = self.cloud_formation_client.update_stack(
+            StackName=stack_name,
+            TemplateBody=json.dumps(cft_json_data),
+            Parameters=[
+                {
+                    'ParameterKey': 'TableName',
+                    'ParameterValue': 'USER_INFO'
+                },
+            ]
+        )
+        return response
+
+    def destroy_cloud_formation_stack(self, stack_name=None):
+        response = self.cloud_formation_client.delete_stack(
+            StackName=stack_name
+        )
+        return response
 
 
 if __name__ == '__main__':
     cloud_formation_object = CloudFormationResource("ap-south-1", "dynamodbtable_cft.json")
-    cloud_formation_object.create_cloud_formation_stack(stack_name="sample-dynamodb-table-stack")
+    # cloud_formation_object.create_cloud_formation_stack(stack_name="sample-dynamodb-table-stack")
+    # cloud_formation_object.update_cloud_formation_stack(stack_name="sample-dynamodb-table-stack")
+    cloud_formation_object.destroy_cloud_formation_stack(stack_name="sample-dynamodb-table-stack")
