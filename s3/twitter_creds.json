@@ -1,7 +1,0 @@
-{
-   "consumer_key": "<REPLACE_WITH_ACTUAL_VALUE>",
-   "consumer_secret": "<REPLACE_WITH_ACTUAL_VALUE>",
-   "oauth_token": "<REPLACE_WITH_ACTUAL_VALUE>",
-   "oauth_token_secret": "<REPLACE_WITH_ACTUAL_VALUE>",
-   "newsapi_api_key": "<REPLACE_WITH_ACTUAL_VALUE>"
-}
