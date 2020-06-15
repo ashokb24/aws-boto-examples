@@ -41,12 +41,12 @@ class CloudFormationResource:
 
 if __name__ == '__main__':
     cloud_formation_object = CloudFormationResource("ap-south-1", "dynamodbtable_cft.json")
-    # parameters = [{
-    #     'ParameterKey': 'TableName',
-    #     'ParameterValue': 'USER_INFO'
-    # }]
-    # cloud_formation_object.create_cloud_formation_stack(stack_name="sample-dynamodb-table-stack",
-    #                                                     parameters_map=parameters)
+    parameters = [{
+        'ParameterKey': 'TableName',
+        'ParameterValue': 'USER_INFO'
+    }]
+    cloud_formation_object.create_cloud_formation_stack(stack_name="sample-dynamodb-table-stack",
+                                                         parameters_map=parameters)
     # cloud_formation_object.update_cloud_formation_stack(stack_name="sample-dynamodb-table-stack",
     #                                                     parameters_map=parameters)
-    # # cloud_formation_object.destroy_cloud_formation_stack(stack_name="sample-dynamodb-table-stack")
+    # cloud_formation_object.destroy_cloud_formation_stack(stack_name="sample-dynamodb-table-stack")

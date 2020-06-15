@@ -40,7 +40,7 @@ class DynamoDbResource:
         print(put_item_response)
 
     def get_an_item(self, key=None):
-        get_item_response = self.dynamodb_client.get_item(TableName=self.table_name, Key=key)
+        get_item_response = self.dynamodb_client.get_item(TableName=self.table_name, Key=key, ConsistentRead=True)
         print(get_item_response)
 
 
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     dynamodb_object.write_an_item(item)
     key = {
         "CUSTOMER_ID": {
-            "N": "456"
+            "N": "123"
         }
     }
     dynamodb_object.get_an_item(key)
